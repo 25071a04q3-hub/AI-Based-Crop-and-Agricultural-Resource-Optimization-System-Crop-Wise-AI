@@ -212,15 +212,19 @@ print(f"Plan Stability Index: {reserves.plan_stability_score * 100:.1f}%")
 
 ## 7. Dashboard Walkthrough & Screens
 
-The FarmTwin Streamlit dashboard is organized into an intuitive multi-tab workflow:
+The FarmTwin Streamlit dashboard is organized into an intuitive sequential, reactive single-page workflow:
 
-1. **Sidebar Configuration**: Intuitive sliders and numeric inputs for farm holding size, soil chemistry test results, climate conditions, water storage, and operational budgets with real-time range validation.
-2. **Tab 1: Farm Overview**: Quick visual summary of total land holding in acres and hectares, soil properties, and validation confirmation.
-3. **Tab 2: Crop Suitability AI**: Ranked suitability bar charts with probability scores, confidence flags, and detailed agronomic limiting factors for suboptimal crops.
-4. **Tab 3: Resource Optimization**: Optimal land parceling breakdown table (hectares, acres, percentage share), total resource consumption against available capacities, and solver diagnostics.
-5. **Tab 4: Portfolio & Soil Health**: Shannon Diversity gauge, ecological diversity rating, soil nitrogen balance indicator, and crop rotation advisories.
-6. **Tab 5: Bottlenecks & Shadow Values**: Resource capacity utilization gauges (Underutilized, Active, Near-Binding, Binding), dual variable values, and $+10\% / +20\%$ sensitivity What-If simulations.
-7. **Tab 6: Adaptive Reserves & Mid-Season Recourse**: Safety buffer percentage tracking, mid-season shock triggers, and post-shock plan stability indicators.
+1. **Top Bar**: Fast demo profile loader (`📥 Load Demo Profile (FARM-001)`) with reference farm telemetry (Telangana, 2 ha, Kharif).
+2. **Farm Profile Input Form**: Comprehensive on-page inputs for holding size (ha/acre), soil chemistry (N-P-K, pH), seasonal weather forecasts (temp, humidity, rainfall), irrigation water (liters/m³), fertilizer inventories, budget, labour, and risk preferences.
+3. **Farm Profile Summary Card**: Validated parameters and JSON normalized units contract.
+4. **Phase 3 Card (AI Crop Suitability)**: Ranked suitability bar charts with probability scores, confidence levels, and detailed agronomic limiting factors.
+5. **Phase 4 Card (Probabilistic Yield)**: Scientific gating banner (`BLOCKED_NO_HISTORICAL_DATASET`) explaining yield model status.
+6. **Phase 5 Card (Scenario Simulator)**: Stress-test evaluation across 7 climate and macroeconomic futures.
+7. **Phase 6 Card (Resource Calculation)**: Input consumption breakdown and multi-resource balance sheet.
+8. **Phase 7 Card (Resource Optimization)**: Optimal land parceling table, resource utilization metrics, and HiGHS simplex solver diagnostics.
+9. **Phase 8 Card (Portfolio & Soil Health)**: Shannon Diversity Index ($H'$), soil nutrient pressure rating, and crop rotation audit.
+10. **Phase 9 Card (Bottlenecks & Shadow Values)**: Binding constraint detection, HiGHS dual variables, and What-If $+10\% / +20\%$ sensitivity levers.
+11. **Phase 10 Card (Adaptive Reserves & Recourse)**: Buffer safety gauges, mid-season re-optimization triggers, and Total Variation Distance plan stability metrics.
 
 ---
 

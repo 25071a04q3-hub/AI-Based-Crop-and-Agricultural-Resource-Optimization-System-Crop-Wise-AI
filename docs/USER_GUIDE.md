@@ -17,68 +17,57 @@ Open your browser to `http://localhost:8501`.
 
 ## 2. Navigating the Interface
 
-The application is structured into a streamlined two-column workspace:
-1. **Left Sidebar (Farm Configuration)**: Input your farm's physical dimensions, soil laboratory test results, water infrastructure, seasonal weather forecasts, and working capital.
-2. **Main Dashboard (Decision Workspace)**: Contains tabs for:
-   - **Farm Overview**: Quick summary of inputs, boundary checks, and total holding dimensions.
-   - **Crop Suitability AI**: Agronomic suitability probabilities across candidate crops.
-   - **Resource Optimization**: Feasible land allocation plans calculated via continuous Linear Programming.
-   - **Portfolio & Rotation Intelligence**: Agronomic diversity ($H'$), soil nutrient balance, and crop rotation advisories.
-   - **Bottleneck & Shadow Values**: Identification of binding constraints and $+10\% / +20\%$ What-If resource expansion levers.
-   - **Adaptive Reserve & Mid-Season Recourse**: Safety buffers, mid-season shock triggers, and plan stability metrics.
+The application is structured as a **single, reactive scrollable dashboard**:
+1. **Top Control Bar**: Includes the `📥 Load Demo Profile (FARM-001)` button to quickly populate representative farm telemetry (Telangana, 2 ha, Kharif).
+2. **Farm Profile Input Form**: Complete input sections directly on the page covering:
+   - **Farm Identity & Location**: Farm ID, Farmer Name, State, District, Latitude, Longitude.
+   - **Operational Land**: Land Area and Unit selector (`hectare` or `acre`).
+   - **Soil Chemistry**: Available Nitrogen (N), Phosphorus (P), Potassium (K) in kg/ha, and soil pH ($0.0 - 14.0$).
+   - **Weather / Observed Climate**: Ambient temperature (°C), relative humidity (%), and expected seasonal rainfall (mm).
+   - **Water & Fertilizer Resources**: Irrigation water volume and unit (`liter` or `m3`), plus available N, P, K fertilizer inventories in kg.
+   - **Economics, Labour & Strategy**: Working capital budget (₹ INR), available labour (person-days), cropping season (Kharif, Rabi, Zaid), planning year, and a risk preference slider ($0.0 - 1.0$).
+3. **Sequential Phase Cards**: Upon validating the profile and clicking `🔮 Analyze Crop Suitability`, the analytical pipeline renders sequentially down the page:
+   - **Farm Profile Summary**: Validated parameters and normalized units contract.
+   - **Phase 3: AI Crop Suitability Analysis**: Bar charts of top suitable crops and limiting factors.
+   - **Phase 4: Probabilistic Crop Yield Prediction**: Gated quantile yield distribution status and diagnostic disclaimers.
+   - **Phase 5: Future Scenario Simulator & Farm Stress Testing**: Interactive climate and macroeconomic shock testing across 7 futures.
+   - **Phase 6: Resource Requirement & Balance Engine**: Per-hectare input consumption breakdown and multi-resource balance sheet.
+   - **Phase 7: Risk-Aware Farm Optimization Engine**: Optimal land parceling table, feasibility indicators, and capacity utilization.
+   - **Phase 8: Crop Portfolio & Soil Rotation Intelligence**: Shannon Diversity Index ($H'$), soil nutrient pressure rating, and crop rotation audit.
+   - **Phase 9: Bottleneck Analysis & Shadow Value Intelligence**: Constraint regime classification, HiGHS dual variables, and What-If $+10\% / +20\%$ sensitivity levers.
+   - **Phase 10: Adaptive Reserve & Mid-Season Re-Optimization**: Contingency buffer margin gauges, parameter shift trigger alerts, and Total Variation Distance plan stability metrics.
 
 ---
 
 ## 3. Step-by-Step Workflow
 
-### Step 1: Input Farm Profile
-1. **Land & Location**: Enter your land holding in acres (automatically converted to hectares) and select your cultivation season (Kharif, Rabi, Zaid).
-2. **Soil Chemistry**: Enter laboratory-tested Nitrogen ($N$), Phosphorus ($P$), Potassium ($K$) in kg/ha, and soil pH ($3.5 - 10.0$).
-3. **Weather Forecast**: Enter anticipated seasonal rainfall (mm), ambient temperature (°C), and relative humidity (%).
-4. **Resources & Infrastructure**: Specify your seasonal irrigation water volume (in Liters) and seasonal working capital budget (in ₹ INR).
-5. Click **"Save & Validate Farm Profile"**. If any parameter violates physical or agronomic bounds, an explicit validation error will guide your correction.
+### Step 1: Input & Validate Farm Profile
+1. Enter your farm dimensions, soil laboratory test results, weather forecasts, and available resource inventories.
+2. Click **"✅ Validate & Save Farm Profile"**. If any parameter violates physical bounds, clean validation messages pinpoint the required correction.
 
 ### Step 2: Review Crop Suitability AI
-- The machine learning classifier evaluates your soil and climatic parameters against 22 crop models.
-- Crops are displayed in rank order with their normalized probability score ($0\% - 100\%$).
-- If a crop has an agronomic mismatch (e.g., rainfall too low or pH too alkaline), the card highlights specific **Limiting Factors** explaining why the crop is suboptimal.
+1. Click **"🔮 Analyze Crop Suitability"**.
+2. The Random Forest model predicts probabilities across 22 crops, displaying ranked bars and prototype tiers (`Highly Suitable`, `Suitable`, `Moderately Suitable`, `Low Suitability`).
+3. For suboptimal crops, inspect the **Limiting Factors** explaining specific soil or climate mismatches.
 
-### Step 3: Run Farm Plan Optimization
-- In the **Resource Optimization** tab, click **"Solve Optimal Farm Plan"**.
-- The solver analyzes your top suitable crops against five concurrent resource boundaries:
-  - Total Land Area (ha)
-  - Seasonal Irrigation Water (Liters)
-  - Seasonal Operating Budget (₹ INR)
-  - Soil Nitrogen, Phosphorus, Potassium capacity limits
-  - Monoculture risk limit (default maximum $60\%$ to any single crop)
-- The resulting allocation table specifies:
-  - Exact hectares and acres allocated to each viable crop.
-  - Land share percentages.
-  - Total resource consumption versus available inventory.
-  - Feasibility status and solver diagnostic flags.
+### Step 3: Run Resource Optimization
+1. In the **Phase 7: Risk-Aware Farm Optimization Engine** card, select the optimization mode (defaults to `RESOURCE_ONLY`).
+2. The SciPy HiGHS simplex solver computes optimal land parcel allocations ($x_i \ge 0$) respecting land, water, budget, and nutrient capacity limits.
+3. Review the allocation summary table detailing hectares, acres, percentage land share, and resource consumption.
 
-### Step 4: Inspect Decision Intelligence
-
-#### Portfolio & Soil Health Tab
-- **Shannon Diversity Index ($H'$)**:
-  - $H' = 0$: Monoculture (high agronomic vulnerability).
-  - $0 < H' < 1.0$: Moderate diversification.
-  - $H' \ge 1.0$: High ecological diversification and pest resistance.
-- **Soil Balance Indicator**: Identifies whether the crop mix will draw heavily on soil nutrients or replenish nitrogen via leguminous crops (e.g., chickpea, lentil).
-
-#### Bottleneck & Shadow Values Tab
-- **Binding Constraints**: Highlighted in red. These resources reached $100\%$ capacity and actively cap your farm's productivity.
-- **Resource Regimes**:
-  - *Binding*: Expanding this resource directly increases your productive capacity.
-  - *Near-Binding ($90-99\%$)*: Warning zone; minor shocks will exhaust this resource.
-  - *Active ($50-89\%$)*: Balanced operational capacity.
-  - *Underutilized ($<50\%$)*: Surplus capacity; consider reallocating funds.
-- **What-If Sensitivity Levers**: Demonstrates the simulated impact on land utilization if you expand your binding resource by $+10\%$ or $+20\%$.
-
-#### Adaptive Reserve & Mid-Season Recourse Tab
-- **Safety Buffers**: Shows the unallocated percentage remaining across water, budget, and nutrients.
-- **Mid-Season Triggers**: Flags whether sudden mid-season shocks (e.g., a $25\%$ monsoon deficit) exceed safe buffer thresholds.
-- **Plan Stability Index**: Measures how much of your original planting plan remains intact if you are forced to re-optimize mid-season.
+### Step 4: Inspect Decision Intelligence Cards
+1. **Portfolio Diversity & Soil Health (Phase 8)**:
+   - Evaluates the Shannon Diversity Index ($H' = -\sum p_i \ln p_i$).
+   - Flags soil nutrient pressure as `LOW_PRESSURE`, `MODERATE_PRESSURE`, or `HIGH_PRESSURE`.
+   - Reports crop rotation metadata as `DATA_UNAVAILABLE` to maintain complete scientific honesty.
+2. **Bottlenecks & Shadow Values (Phase 9)**:
+   - Identifies which resource forms the primary binding bottleneck ($\ge 99\%$ utilization).
+   - Displays authentic HiGHS dual multipliers ($\lambda_j$) in suitability-weighted land gain per resource unit.
+   - Evaluates What-If sensitivity levers showing land gains from $+10\%$ or $+20\%$ capacity relaxations.
+3. **Adaptive Reserves & Mid-Season Recourse (Phase 10)**:
+   - Audits unallocated contingency margins (`EXHAUSTED`, `CRITICAL`, `LOW`, `HEALTHY`).
+   - Flags whether mid-season parameter shifts trip re-optimization triggers.
+   - Computes plan stability under scenario stress using Total Variation Distance.
 
 ---
 
@@ -87,18 +76,18 @@ The application is structured into a streamlined two-column workspace:
 ### Why are Yield and Revenue Predictions Gated?
 FarmTwin strictly complies with academic and scientific honesty principles. In the current release, a verified historical yield dataset calibrated for localized micro-climates is not bundled. Rather than fabricating synthetic crop yields, market prices, or net profit calculations, the engine:
 1. Operates in `RESOURCE_ONLY` optimization mode (maximizing suitability-weighted land productivity).
-2. Explicitly flags yield modules as `BLOCKED_NO_YIELD_MODEL`.
+2. Explicitly flags yield modules as `BLOCKED_NO_HISTORICAL_DATASET`.
 3. Displays dual variables in objective units ($\Delta\text{suitability-weighted ha} / \Delta\text{resource}$) rather than hallucinated currency.
 
 ---
 
 ## 5. Frequently Asked Questions (FAQ)
 
-**Q: Can I allocate 100% of my land to one high-value crop?**  
-A: No. By default, the optimizer enforces a diversification ceiling (maximum $60\%$ land share to any single crop) to prevent monoculture disease outbreaks and systemic soil depletion.
-
-**Q: What should I do if the solver reports an "Infeasible" plan?**  
-A: Infeasibility typically occurs when your available working capital or irrigation water is insufficient to cultivate even the minimum viable land increment. Increase your seasonal budget or water allocation in the sidebar and re-run.
-
 **Q: Does FarmTwin require an internet connection?**  
 A: No. All machine learning models, optimization routines, and decision rules run $100\%$ locally on your device.
+
+**Q: What should I do if the solver reports an "Infeasible" plan?**  
+A: Infeasibility typically occurs when your available working capital or irrigation water is insufficient to cultivate even the minimum viable land increment. Increase your seasonal budget or water allocation in the input form and re-run.
+
+**Q: Why does Crop Rotation show "DATA_UNAVAILABLE"?**  
+A: Because the repository configuration currently lacks populated botanical family and multi-season succession rules. In compliance with data honesty standards, FarmTwin refuses to invent fake rotation cycles.

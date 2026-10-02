@@ -8,32 +8,31 @@ graph TD
     
     subgraph ConfigDir ["config/"]
         CropProfile["crops_profile.json"]
+        RotationMatrix["crop_rotation_matrix.json"]
+        RegionalDefaults["regional_defaults.json"]
     end
     
-    subgraph DataDir ["data/"]
-        CropCSV["Crop_recommendation.csv"]
-    end
-    
-    subgraph ModelsDir ["models/"]
-        RFModel["crop_suitability_rf.joblib"]
+    subgraph DataDir ["data/raw/"]
+        CropCSV["crop_recommendation.csv (2,200 rows)"]
     end
     
     subgraph EngineDir ["engine/"]
-        E1["profile.py"]
-        E2["crop_suitability.py"]
-        E3["yield_prediction.py"]
-        E4["scenario_simulator.py"]
-        E5["resource_calculator.py"]
-        E6["optimizer.py"]
-        E7["portfolio_intelligence.py"]
-        E8["bottleneck_analysis.py"]
-        E9["adaptive_reserve.py"]
+        E1["profile.py (FarmProfile)"]
+        E2["crop_suitability.py (Random Forest)"]
+        E3["yield_prediction.py (Quantile GBDT gate)"]
+        E4["scenario_simulator.py (7 stress scenarios)"]
+        E5["resource_calculator.py (Balance sheet)"]
+        E6["optimizer.py (HiGHS LP simplex)"]
+        E7["portfolio_intelligence.py (Shannon H')"]
+        E8["bottleneck_analysis.py (Dual variables)"]
+        E9["adaptive_reserve.py (Buffer margins & TVD)"]
         Facades["Facades (suitability, shadow, etc.)"]
     end
     
     subgraph UIDir ["ui/"]
-        AppPy["app.py"]
-        UIComp["components/"]
+        AppPy["app.py (Streamlit dashboard)"]
+        UIComp["components/ (9 active cards, stubs)"]
+        UILoc["localization/ (en, hi, te)"]
     end
     
     subgraph TestsDir ["tests/"]
@@ -50,12 +49,11 @@ graph TD
     end
     
     subgraph ArchiveDir ["archive/"]
-        LegacyCropWise["Legacy CropWise AI Files"]
+        LegacyCropWise["Legacy CropWise AI Archive"]
     end
 
     Root --> ConfigDir
     Root --> DataDir
-    Root --> ModelsDir
     Root --> EngineDir
     Root --> UIDir
     Root --> TestsDir

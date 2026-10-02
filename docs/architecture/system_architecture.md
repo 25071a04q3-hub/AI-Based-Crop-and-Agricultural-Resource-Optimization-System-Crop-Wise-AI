@@ -4,13 +4,13 @@ This document illustrates the high-level system architecture of the **FarmTwin â
 
 ```mermaid
 graph TD
-    subgraph UI_Layer ["Presentation & Interaction Layer (Streamlit)"]
-        Sidebar["Farm Profile Sidebar Input"]
-        SuitabilityTab["AI Suitability View"]
-        OptimizationTab["Farm Plan & Allocation Table"]
-        PortfolioTab["Shannon Diversity & Soil Health"]
-        BottleneckTab["Dual Variables & What-If Levers"]
-        ReserveTab["Adaptive Reserve & Mid-Season Recourse"]
+    subgraph UI_Layer ["Presentation & Interaction Layer (Streamlit ui/app.py)"]
+        ProfileForm["Farm Profile Input Form"]
+        SuitabilityCard["Crop Suitability Evaluation Card"]
+        OptimizationCard["Resource Optimizer Card"]
+        PortfolioCard["Portfolio & Soil Intelligence Card"]
+        BottleneckCard["Bottleneck & Shadow Analysis Card"]
+        ReserveCard["Adaptive Reserve & Recourse Card"]
     end
 
     subgraph Core_Engine ["FarmTwin Core Engine (engine/)"]
@@ -26,16 +26,16 @@ graph TD
     end
 
     subgraph Data_Config ["Configuration & Storage Layer"]
-        CropData["Crop Recommendation Dataset (data/)"]
+        CropData["Crop Benchmark Dataset (data/raw/crop_recommendation.csv)"]
         CropProfileJSON["Agronomic Crop Norms (config/crops_profile.json)"]
-        TrainedModel["Random Forest Model (models/crop_suitability_rf.joblib)"]
+        TrainedModel["In-Memory Random Forest Classifier (_MODEL_CACHE)"]
     end
 
     subgraph External_Solver ["Mathematical Solver Backend"]
         SciPy["SciPy HiGHS Simplex Solver (C++)"]
     end
 
-    Sidebar -->|Validated Raw Inputs| P1
+    ProfileForm -->|Validated Raw Inputs| P1
     CropData -->|Training| TrainedModel
     TrainedModel -->|Inference| P2
     P1 -->|Validated FarmProfile| P2
@@ -51,9 +51,9 @@ graph TD
     P1 -->|Farm Profile Context| P8
     P1 -->|Farm Profile Context| P9
 
-    P2 -.->|Results| SuitabilityTab
-    P6 -.->|Results| OptimizationTab
-    P7 -.->|Metrics| PortfolioTab
-    P8 -.->|Insights| BottleneckTab
-    P9 -.->|Buffers| ReserveTab
+    P2 -.->|Results| SuitabilityCard
+    P6 -.->|Results| OptimizationCard
+    P7 -.->|Metrics| PortfolioCard
+    P8 -.->|Insights| BottleneckCard
+    P9 -.->|Buffers| ReserveCard
 ```
