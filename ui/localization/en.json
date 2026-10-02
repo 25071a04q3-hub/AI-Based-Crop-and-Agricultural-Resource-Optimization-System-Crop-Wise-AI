@@ -1,0 +1,16 @@
+{
+  "app_name": "FarmTwin",
+  "subtitle": "Risk-Aware Adaptive Farm Decision Engine",
+  "status_initialized": "System foundation initialized.",
+  "status_upcoming": "FarmTwin decision pipeline will be enabled in upcoming phases.",
+  "labels": {
+    "farm_profile": "Farm Profile",
+    "crop_suitability": "Crop Suitability",
+    "yield_prediction": "Yield Prediction",
+    "resource_allocation": "Resource Allocation",
+    "risk_optimization": "Risk-Aware Optimization",
+    "bottlenecks": "Resource Bottlenecks",
+    "what_if": "What-If Simulation",
+    "mid_season": "Mid-Season Re-Optimization"
+  }
+}

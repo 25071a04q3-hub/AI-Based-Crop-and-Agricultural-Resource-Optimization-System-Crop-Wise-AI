@@ -1,0 +1,16 @@
+{
+  "app_name": "फार्मट्विन (FarmTwin)",
+  "subtitle": "जोखिम-सजग अनुकूली कृषि निर्णय इंजन",
+  "status_initialized": "प्रणाली की नींव सफलतापूर्वक स्थापित की गई।",
+  "status_upcoming": "आगामी चरणों में फार्मट्विन निर्णय प्रक्रियाएं सक्षम की जाएंगी।",
+  "labels": {
+    "farm_profile": "खेत का विवरण",
+    "crop_suitability": "फसल उपयुक्तता",
+    "yield_prediction": "उपज अनुमान",
+    "resource_allocation": "संसाधन आवंटन",
+    "risk_optimization": "जोखिम-सजग अनुकूलन",
+    "bottlenecks": "संसाधन बाधाएं",
+    "what_if": "क्या-अगर विश्लेषण",
+    "mid_season": "सत्र-मध्य पुनरानुकूलन"
+  }
+}
