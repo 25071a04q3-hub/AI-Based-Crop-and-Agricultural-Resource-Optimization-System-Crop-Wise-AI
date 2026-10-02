@@ -3,7 +3,15 @@ FarmTwin — Risk-Aware Adaptive Farm Decision Engine.
 Jury-Ready Demonstration Dashboard & Decision Intelligence Platform.
 High-Aesthetic Executive Dark Mode Design System.
 """
+import sys
+from pathlib import Path
 from typing import Optional, Dict, Any
+
+# Ensure project root is in sys.path regardless of execution working directory (e.g. Render, Streamlit Cloud)
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import streamlit as st
 import pandas as pd
 from pydantic import ValidationError
