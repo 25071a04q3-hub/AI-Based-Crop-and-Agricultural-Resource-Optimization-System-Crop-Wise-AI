@@ -115,6 +115,17 @@ class FarmOptimizationResult(BaseModel):
     explanation: str = Field(description="Farmer-friendly natural language explanation of the plan")
     details: Dict[str, Any] = Field(default_factory=dict, description="Solver diagnostic metadata")
 
+    @property
+    def feasible(self) -> bool:
+        """Backward-compatible alias for feasibility."""
+        return self.feasibility
+
+    @property
+    def allocations(self) -> Dict[str, float]:
+        """Backward-compatible alias for crop_allocations_ha."""
+        return self.crop_allocations_ha
+
+
 
 # ==============================================================================
 # CANDIDATE NORMALIZATION UTILITIES

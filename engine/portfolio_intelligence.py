@@ -48,6 +48,16 @@ class PortfolioAnalysisResult(BaseModel):
     crop_entries: List[CropPortfolioEntry] = Field(default_factory=list)
     nutrient_utilization_pct: Dict[str, Optional[float]] = Field(default_factory=dict)
 
+    @property
+    def shannon_diversity_index(self) -> float:
+        """Backward-compatible alias for diversity_score."""
+        return self.diversity_score
+
+    @property
+    def soil_nutrient_pressure_index(self) -> str:
+        """Backward-compatible alias for nutrient_pressure_status."""
+        return self.nutrient_pressure_status
+
 
 def analyze_portfolio_diversity(
     crop_allocations: Dict[str, float]
