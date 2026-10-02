@@ -1,6 +1,6 @@
 # FarmTwin — Adaptive Farm Decision Engine
 
-[![Tests: Passing (172/172)](https://img.shields.io/badge/tests-172%20passed-brightgreen.svg)](#13-test-results)
+[![Tests: Passing (177/177)](https://img.shields.io/badge/tests-177%20passed-brightgreen.svg)](#11-test-results--verification)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Streamlit: UI Operational](https://img.shields.io/badge/Streamlit-1.63.0-FF4B4B.svg)](https://streamlit.io/)
@@ -277,15 +277,43 @@ FarmTwin adheres strictly to academic and scientific honesty principles:
 
 ---
 
-## 11. Test Results & Verification
+## 11. Jury Demonstration (3-Minute Live Protocol)
+
+FarmTwin is configured with deterministic 1-click demonstration presets designed for evaluation juries and technical reviewers:
+
+1. **Farm Setup & AI Suitability (0:00 - 0:45)**
+   - Click the **Balanced Farm (Telangana)** preset button.
+   - Review the **Executive Decision Summary** and **Top Suitable Crops** ranked by the 2,200-row Random Forest classifier.
+   - Observe how optimal multi-crop land allocation is solved.
+
+2. **Resource Bottleneck Diagnosis (0:45 - 1:30)**
+   - Click the **Water-Stressed Farm (Rajasthan)** preset.
+   - Review **What Is Limiting This Farm?** to observe Irrigation Water immediately become the 100% binding constraint ceiling, triggering adaptation to drought-hardy crops.
+
+3. **Deterministic Stress Testing (1:30 - 2:00)**
+   - Navigate to the **Farm Stress Test Lab**.
+   - Select the **Severe Drought** scenario to observe comparative acreage contraction under simulated climate shock.
+
+4. **Adaptive Reserve & What-If Reoptimization (2:00 - 2:40)**
+   - In the **Interactive What-If Simulator**, reduce available water by -25%.
+   - Observe the deterministic HiGHS re-solver calculate crop-by-crop acreage shifts and the Total Variation Distance (TVD) **Plan Stability Score**.
+
+5. **Explainability & Scientific Integrity Gate (2:40 - 3:00)**
+   - Review **Why Did FarmTwin Make This Decision?** for transparent mathematical explainability.
+   - Highlight the **Yield Forecasting — DATA GATED** status card, explaining that FarmTwin strictly refuses to hallucinate synthetic yields or profits without authenticated multi-year empirical datasets.
+
+---
+
+## 12. Test Results & Verification
 
 FarmTwin maintains a complete automated test suite ensuring end-to-end reliability:
 
 ```bash
 $ python -m pytest -q
-....................................................................................
-....................................................................................
-172 passed in 18.50s
+........................................................................
+........................................................................
+.................................
+177 passed in 5.03s
 ```
 
 ### Coverage by Component
@@ -299,10 +327,11 @@ $ python -m pytest -q
 - **Bottleneck Analysis (`tests/test_bottleneck_analysis.py`)**: 24 tests passing
 - **Adaptive Reserves (`tests/test_adaptive_reserve.py`)**: 20 tests passing
 - **End-to-End Pipeline (`tests/test_pipeline_integration.py`)**: 11 tests passing
+- **Jury Demo Presets (`tests/test_demo_presets.py`)**: 5 tests passing
 
 ---
 
-## 12. Project Documentation
+## 13. Project Documentation
 
 Comprehensive technical documentation is available in the `docs/` directory:
 - [**Project Architecture Specification**](docs/PROJECT_ARCHITECTURE.md): Complete system architectural breakdown.
@@ -320,7 +349,7 @@ Comprehensive technical documentation is available in the `docs/` directory:
 
 ---
 
-## 13. Limitations
+## 14. Limitations
 
 1. **Gated Yield Forecasting**: Full economic profit optimization is temporarily inactive because calibrated historical yield datasets are not yet integrated into the repository.
 2. **Static Crop Norms**: Crop water and nutrient requirements in `config/crops_profile.json` reflect regional baseline averages; micro-climatic variations may require local agronomic calibration.
@@ -329,7 +358,7 @@ Comprehensive technical documentation is available in the `docs/` directory:
 
 ---
 
-## 14. Future Work
+## 15. Future Work
 
 1. **Integration of Calibrated Historical Yield Datasets**: Train and validate Quantile Gradient Boosting regressors on localized district-level yield statistics.
 2. **Economic Risk Optimization**: Activate Conditional Value-at-Risk (CVaR) revenue maximization once authentic yield and mandi spot price feeds are integrated.
@@ -338,6 +367,6 @@ Comprehensive technical documentation is available in the `docs/` directory:
 
 ---
 
-## 15. License
+## 16. License
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for complete terms.
